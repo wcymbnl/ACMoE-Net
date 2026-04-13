@@ -1,0 +1,24 @@
+bash dist_train.sh configs/grounding_dino_swin_t.py 1 --amp
+bash dist_train.sh configs/grounding_dino_swin_t_smoke.py 1 --amp
+
+验证代码
+bash dist_test.sh configs/grounding_dino_swin_t.py tiny.pth 4
+
+
+
+python image_demo.py images/demo.jpeg \
+  configs/grounding_dino_swin_t.py --weight tiny.pth \
+  --text 'apple .' -c --pred-score-thr 0.4
+
+
+python image_demo.py images/demo.jpeg \
+  configs/grounding_dino_swin_t.py --weight tiny.pth \
+  --text 'There are many apples here.' --pred-score-thr 0.35
+
+
+python image_demo.py images/demo.jpeg \
+  configs/grounding_dino_swin_t.py --weight tiny.pth \
+  --text 'red apple.' --tokens-positive -1 --pred-score-thr 0.4
+
+
+python -c "import sys, torch; print(f'Python 版本: {sys.version.split()[0]}'); print(f'PyTorch 版本: {torch.__version__}'); print(f'PyTorch 对应的 CUDA 版本: {torch.version.cuda}'); print(f'GPU 显卡是否可用: {torch.cuda.is_available()}')"
